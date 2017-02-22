@@ -15,8 +15,11 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
+      // StatusBar.styleDefault();
       Splashscreen.hide();
+
+      StatusBar.overlaysWebView(true); // let status bar overlay webview
+      StatusBar.backgroundColorByHexString('#ffffff'); // set status bar to white
     });
   }
 }
