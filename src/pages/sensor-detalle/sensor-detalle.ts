@@ -3,30 +3,28 @@ import { NavController, NavParams } from 'ionic-angular';
 import Chart from 'chart.js';
 
 /*
-  Generated class for the EstacioneDetalle page.
+  Generated class for the SensorDetalle page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */
 @Component({
-  selector: 'page-estacione-detalle',
-  templateUrl: 'estacione-detalle.html'
+  selector: 'page-sensor-detalle',
+  templateUrl: 'sensor-detalle.html'
 })
-export class EstacioneDetallePage {
+export class SensorDetallePage {
 
-  public detalle: any = [];
+  detalle: any = [];
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams
   ) {
-     this.detalle = this.navParams.data;    
-
-     console.log(this.detalle); 
+     this.detalle = this.navParams.data;
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EstacioneDetallePage');
+    console.log('ionViewDidLoad SensorDetallePage');
     this.loadGraphics();
   }
 

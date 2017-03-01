@@ -5,20 +5,20 @@ import 'rxjs/add/operator/map';
 import * as constants from './constants';
 
 /*
-  Generated class for the ServiceEstaciones provider.
+  Generated class for the Sensores provider.
 
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
 @Injectable()
-export class ServiceEstaciones {
+export class ServiceSensores {
 
   constructor(public http: Http) {
-    console.log('Hello ServiceEstaciones Provider');
+    console.log('Hello Sensores Provider');
   }
 
-  getListEstaciones() {
-    return new Promise((resolve, reject) => this.http.get(constants.URL_API_ESTACIONES).map(res => res.json()).subscribe((response: any = []) => resolve(response)));
+  getListSensores() {
+    return new Promise((resolve) => this.http.get(constants.URL_API_SENSORES).map(res => res.json()).subscribe((data: any = []) => resolve(data)))
   }
 
 }

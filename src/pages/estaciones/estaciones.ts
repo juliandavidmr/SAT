@@ -3,6 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { EstacioneDetallePage } from '../estacione-detalle/estacione-detalle';
 
+import { ServiceEstaciones } from '../../providers/service-estaciones';
+
 /*
   Generated class for the Estaciones page.
 
@@ -17,23 +19,20 @@ export class EstacionesPage {
 
   public list_estaciones: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public estacion_api: ServiceEstaciones
+  ) {
+    this.estacion_api.getListEstaciones().then(data => {
+      this.list_estaciones = data;
+
+      console.log('Estaciones: ', this.list_estaciones);
+    })
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EstacionesPage');
-
-    this.list_estaciones = [{
-      id: 1,
-      nombre: 'Sensor #',
-      descripcion: 'Sensor de abc con xyz',
-      fechacreado: Date.now()
-    }, {
-      id: 2,
-      nombre: 'Sensor #',
-      descripcion: 'Sensor de axxc con xxtz',
-      fechacreado: Date.now()
-    }];
+    console.log('ionViewDidLoad EstacionesPage');  
   }
 
   openDetalleEstacion(estacion_params: any) {

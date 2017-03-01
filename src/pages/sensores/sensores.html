@@ -1,0 +1,68 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Sensores</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding no-margin>
+  <ion-fab left bottom>
+    <button ion-fab color="danger">
+      <ion-icon name="logo-buffer"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab color="primary"><ion-icon name="logo-rss"></ion-icon></button>
+    </ion-fab-list>
+    <ion-fab-list side="right">
+      <button ion-fab color="dark"><ion-icon name="logo-twitter"></ion-icon></button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <ion-card *ngFor="let item of list_sensores" (click)="openDetalle(item)">
+
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="assets/images/sensor.png">
+      </ion-avatar>
+      <h2>{{ item.NombreSensor }}</h2>
+      <p>{{ item.Descripcion1 }}</p>
+    </ion-item>
+
+    <ion-card-content>
+      <p>
+        <strong>NombreSensor:</strong> {{item.NombreSensor}} <br>
+        <strong>Tipo:</strong> {{ item.NombreTipoSensor }} <br>
+        <strong>Estación:</strong> {{ item.Nombre }} <br>
+        <strong>Descripción:</strong> {{ item.Descripcion1 }} <br>
+      </p>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+        <ion-icon name="arrow-up"></ion-icon>
+        <div>{{ item.Maximo }}</div>
+      </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+        <ion-icon name="arrow-down"></ion-icon>
+        <div>{{ item.Minimo }}</div>
+      </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+        <ion-icon name="resize"></ion-icon>
+        <div>{{ item.Altura }}</div>
+      </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note>
+          11h ago
+        </ion-note>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+</ion-content>

@@ -10,13 +10,15 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { EstacioneDetallePage } from '../pages/estacione-detalle/estacione-detalle';
 import { EstacionesPage } from '../pages/estaciones/estaciones';
 import { LoginPage } from '../pages/login/login';
-import { DatosPage } from '../pages/datos/datos';
 import { MapaPage } from '../pages/mapa/mapa';
+import { SensoresPage } from '../pages/sensores/sensores';
+import { SensorDetallePage } from '../pages/sensor-detalle/sensor-detalle';
 
 /* Providers */
 import { AuthService } from '../providers/auth-service';
 import { ServiceDatos } from '../providers/service-datos';
 import { ServiceEstaciones } from '../providers/service-estaciones';
+import { ServiceSensores } from '../providers/service-sensores';
 
 /* Components */
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
@@ -30,9 +32,10 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     EstacioneDetallePage,
     EstacionesPage,
     LoginPage,
-    DatosPage,
     ParallaxHeader,
-    MapaPage
+    MapaPage,
+    SensoresPage,
+    SensorDetallePage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -54,8 +57,9 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     EstacioneDetallePage,
     EstacionesPage,
     LoginPage,
-    DatosPage,
-    MapaPage
+    MapaPage,
+    SensoresPage,
+    SensorDetallePage
   ],
   providers: [{
     provide: ErrorHandler,
@@ -63,7 +67,8 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
   },
     AuthService,
     ServiceDatos,
-    ServiceEstaciones
+    ServiceEstaciones,
+    ServiceSensores
   ]
 })
 export class AppModule { }
