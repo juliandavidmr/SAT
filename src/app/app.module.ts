@@ -19,6 +19,8 @@ import { AuthService } from '../providers/auth-service';
 import { ServiceDatos } from '../providers/service-datos';
 import { ServiceEstaciones } from '../providers/service-estaciones';
 import { ServiceSensores } from '../providers/service-sensores';
+import { Load } from '../providers/load';
+import { DateMethod } from '../providers/date';
 
 /* Components */
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
@@ -68,7 +70,9 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     AuthService,
     ServiceDatos,
     ServiceEstaciones,
-    ServiceSensores
+    ServiceSensores,
+    Load,
+    DateMethod
   ]
 })
 export class AppModule { }

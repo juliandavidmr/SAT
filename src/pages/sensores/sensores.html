@@ -6,18 +6,8 @@
 
 </ion-header>
 
-<ion-content padding no-margin>
-  <ion-fab left bottom>
-    <button ion-fab color="danger">
-      <ion-icon name="logo-buffer"></ion-icon>
-    </button>
-    <ion-fab-list side="top">
-      <button ion-fab color="primary"><ion-icon name="logo-rss"></ion-icon></button>
-    </ion-fab-list>
-    <ion-fab-list side="right">
-      <button ion-fab color="dark"><ion-icon name="logo-twitter"></ion-icon></button>
-    </ion-fab-list>
-  </ion-fab>
+<ion-content padding no-margin>  
+  <p class="tiempo">Ultima actualización: {{ date.ahora(lastUpdate) }}</p>
 
   <ion-card *ngFor="let item of list_sensores" (click)="openDetalle(item)">
 
@@ -31,6 +21,8 @@
 
     <ion-card-content>
       <p>
+        <ion-badge item-right>{{ item.NombreTipoSensor }}</ion-badge>
+        <br>
         <strong>NombreSensor:</strong> {{item.NombreSensor}} <br>
         <strong>Tipo:</strong> {{ item.NombreTipoSensor }} <br>
         <strong>Estación:</strong> {{ item.Nombre }} <br>
