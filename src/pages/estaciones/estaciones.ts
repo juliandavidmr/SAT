@@ -4,6 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { EstacioneDetallePage } from '../estacione-detalle/estacione-detalle';
 
 import { ServiceEstaciones } from '../../providers/service-estaciones';
+import { Load } from '../../providers/load';
 
 /*
   Generated class for the Estaciones page.
@@ -22,12 +23,17 @@ export class EstacionesPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public estacion_api: ServiceEstaciones
+    public estacion_api: ServiceEstaciones,
+    public load: Load
   ) {
+    this.load.presentLoadingDefault();
     this.estacion_api.getListEstaciones().then(data => {
       this.list_estaciones = data;
 
       console.log('Estaciones: ', this.list_estaciones);
+      this.load.closeLoading();
+    }).catch(err => {
+      this.load.closeLoading();
     })
   }
 

@@ -1,14 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
-import {
-  GoogleMap,
-  GoogleMapsEvent,
-  GoogleMapsLatLng,
-  CameraPosition,
-  GoogleMapsMarkerOptions,
-  GoogleMapsMarker
-} from 'ionic-native';
+import L from 'leaflet';
 
 /*
   Generated class for the Mapa page.
@@ -21,6 +13,22 @@ import {
   templateUrl: 'mapa.html'
 })
 export class MapaPage {
+
+  map: any = {};
+  center: Array<Number> = [
+    1.6208841, -75.6051835
+  ]
+  zoom: Number = 13;
+
+  greenIcon = L.icon({
+    iconUrl: 'assets/images/pin2.png',
+
+    iconSize: [43, 45], // size of the icon
+    shadowSize: [50, 64], // size of the shadow
+    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+  });
 
   constructor(
     public navCtrl: NavController,
@@ -38,44 +46,28 @@ export class MapaPage {
   }
 
   loadMap() {
-    // make sure to create following structure in your view.html file
-    // and add a height (for example 100%) to it, else the map won't be visible
-    // <ion-content>
-    //  <div #map id="map" style="height:100%;"></div>
-    // </ion-content>
+    this.map = L.map('map').setView(this.center, this.zoom);
 
-    // create a new map by passing HTMLElement
-    let element: HTMLElement = document.getElementById('map');
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
 
-    let map = new GoogleMap(element);
+    L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
 
-    // listen to MAP_READY event
-    map.one(GoogleMapsEvent.MAP_READY).then(() => {
-      console.log('Map is ready!');
-
-      // create LatLng object
-      let ionic: GoogleMapsLatLng = new GoogleMapsLatLng(43.0741904, -89.3809802);
-
-      // create CameraPosition
-      let position: CameraPosition = {
-        target: ionic,
-        zoom: 18,
-        tilt: 30
-      };
-
-      // move the map's camera to position
-      map.moveCamera(position);
-
-      // create new marker
-      let markerOptions: GoogleMapsMarkerOptions = {
-        position: ionic,
-        title: 'Ionic'
-      };
-
-      map.addMarker(markerOptions)
-        .then((marker: GoogleMapsMarker) => {
-          marker.showInfoWindow();
-        });
+    this.map.on('click', (e) => {
+      let marker = L.marker(e.latlng)
+        .bindPopup('Mensaje')
+        .addTo(this.map)
+        .openPopup();
     });
+
+    this.addMarker([1.6221243, -75.5961411], 'Florencia, Caquetá');
+  }
+
+  addMarker(coord: Array<Number>, message: string = 'Mensaje') {
+    // L.marker([50.5, 30.5]).addTo(this.map);
+    L.marker(coord, { icon: this.greenIcon }).addTo(this.map)
+      .bindPopup(message)
+      .openPopup();
   }
 }

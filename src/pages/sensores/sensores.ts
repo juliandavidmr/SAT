@@ -29,6 +29,10 @@ export class SensoresPage {
     public load: Load,
     public date: DateMethod
   ) {
+    this.loadData()
+  }
+
+  loadData() {
     this.load.presentLoadingDefault();
     this.apisensores.getListSensores().then(data => {
       this.list_sensores = data;
