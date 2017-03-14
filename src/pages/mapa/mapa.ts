@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { ServiceSensores, ResponseData } from '../../providers/service-sensores';
 import L from 'leaflet';
 
 /*
@@ -20,9 +21,10 @@ export class MapaPage {
   ]
   zoom: Number = 13;
 
+  public list_sensores: ResponseData[] = [];
+
   greenIcon = L.icon({
     iconUrl: 'assets/images/pin2.png',
-
     iconSize: [43, 45], // size of the icon
     shadowSize: [50, 64], // size of the shadow
     iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
@@ -32,8 +34,8 @@ export class MapaPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams) {
-
+    public navParams: NavParams,
+    public sensores: ServiceSensores) {
   }
 
   ionViewDidLoad() {
@@ -43,28 +45,60 @@ export class MapaPage {
   // Load map only after view is initialize
   ngAfterViewInit() {
     this.loadMap();
+
+    this.loadSensores();
   }
 
+  /**
+   * Carga los sensores en el mapa
+   */
+  loadSensores() {
+    console.log("Sensores:", this.list_sensores);
+    this.sensores.getListSensores().then(data => {
+      this.list_sensores = data;
+
+      this.list_sensores.map((item, index) => {
+        this.addMarker([
+          parseFloat(item.Latitud), 
+          parseFloat(item.Longitud)], 
+          `${item.Nombre}-${item.NombreSensor}`
+        );
+        console.log("Cargado sensor ", index, item);
+      })
+    })
+  }
+
+  /**
+   * Carga el elemento del mapa
+   */
   loadMap() {
     this.map = L.map('map').setView(this.center, this.zoom);
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="http://osm.org/copyright">SAT Florencia</a> contributors'
     }).addTo(this.map);
 
     L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
 
     this.map.on('click', (e) => {
+      /*
+      //marker Default
       let marker = L.marker(e.latlng)
         .bindPopup('Mensaje')
         .addTo(this.map)
         .openPopup();
+      */
     });
 
-    this.addMarker([1.6221243, -75.5961411], 'Florencia, Caquetá');
+    this.addMarker(this.center, 'Florencia, Caquetá');
   }
 
-  addMarker(coord: Array<Number>, message: string = 'Mensaje') {
+  /**
+   * Añade un marcador al mapa
+   * @param coord Coordenadas
+   * @param message Mensaje a mostrar en popup
+   */
+  addMarker(coord: Array<Number | String>, message: string = 'Mensaje'): void {
     // L.marker([50.5, 30.5]).addTo(this.map);
     L.marker(coord, { icon: this.greenIcon }).addTo(this.map)
       .bindPopup(message)

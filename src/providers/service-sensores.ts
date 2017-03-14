@@ -10,7 +10,7 @@ import * as constants from './constants';
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
-interface ResponseData {
+export interface ResponseData {
   Altura: Number
   Descripcion: string
   Descripcion1: string
@@ -37,7 +37,7 @@ export class ServiceSensores {
     console.log('Hello Sensores Provider');
   }
 
-  getListSensores() {
+  getListSensores(): Promise<ResponseData[]> {
     return new Promise((resolve) => this.http.get(constants.URL_API_SENSORES).map(res => res.json()).subscribe((data: ResponseData[] = []) => resolve(data)))
   }
 
