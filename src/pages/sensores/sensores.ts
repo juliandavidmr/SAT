@@ -42,7 +42,7 @@ export class SensoresPage {
       this.load.closeLoading();
 
       this.lastUpdate = Date.now();
-    }).catch((err) => {
+    }).catch((err: any) => {
       this.load.closeLoading(); // TODO: Hacer que la promesa getListSensores use el reject
     })
   }

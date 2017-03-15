@@ -25,6 +25,8 @@ import { DateMethod } from '../providers/date';
 /* Components */
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 
+import { Storage } from '@ionic/storage';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -47,8 +49,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
       modalLeave: 'modal-slide-out',
       tabsPlacement: 'top',
       pageTransition: 'ios'
-    }, {}
-    )
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -72,7 +73,8 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     ServiceEstaciones,
     ServiceSensores,
     Load,
-    DateMethod
+    DateMethod,
+    Storage
   ]
 })
 export class AppModule { }

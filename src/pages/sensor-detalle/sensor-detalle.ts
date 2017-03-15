@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { ServiceSensores, ResponseData } from '../../providers/service-sensores';
 import Chart from 'chart.js';
+import * as moment from 'moment';
 
 /*
   Generated class for the SensorDetalle page.
@@ -14,30 +16,51 @@ import Chart from 'chart.js';
 })
 export class SensorDetallePage {
 
-  detalle: any = [];
+  detalle: ResponseData;
+  data_captura: any = [];
 
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public sensores: ServiceSensores
   ) {
-     this.detalle = this.navParams.data;
+    this.detalle = this.navParams.data;
+    console.log("Detalle sensor: ", this.detalle.idSensor);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SensorDetallePage');
-    this.loadGraphics();
+    this.loadDCaptura();
   }
 
-  loadGraphics() {
+  loadDCaptura() {
+    var id = this.detalle.idSensor;
+    this.sensores.getDataSensor(id).then(_data => {
+      this.data_captura = _data;
+
+      console.log("Capturados: ", this.data_captura);
+
+      var list_data: Array<Number> = [];
+      var list_label: Array<string> = [];
+      this.data_captura.map((item, index) => {
+        list_data.push(item.Dato);
+        // list_label.push(moment(item.insertDate));
+      })
+      this.loadGraphics('line', list_label, list_data);
+    })
+  }
+
+  loadGraphics(type: string, labels: Array<string>, data: Array<Number>) {
     try {
       var el1 = document.getElementById('idSensor_temperatura');
-      var myChart = new Chart(el1, {
-        type: 'bar',
+      // var myChart = 
+      new Chart(el1, {
+        type: type,
         data: {
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+          labels: labels,
           datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: '# Datos',
+            data: data,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
