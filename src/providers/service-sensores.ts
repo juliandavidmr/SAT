@@ -54,11 +54,11 @@ export class ServiceSensores {
     return new Promise((resolve) => this.http.get(constants.URL_API_SENSORES)
       .map(res => res.json())
       .subscribe((data: ResponseData[] = []) => {
-        this.setLocaldata(data);
+        this.setLocaldata(data,constants.KEY_SENSORES);
         return resolve(data);
       }, err => {
         // console.log("Error:", err);
-        this.getLocaldata().then(res => resolve(res))
+        this.getLocaldata(constants.KEY_SENSORES).then(res => resolve(res))
       }))
   }
 
@@ -66,17 +66,33 @@ export class ServiceSensores {
    * Almacena los datos de sensores en local
    * @param data 
    */
-  setLocaldata(data: ResponseData[]) {
+  setLocaldata(data: ResponseData[], key: string) {
     this.storage.ready().then(() => {
-      this.storage.set(constants.KEY_SENSORES, data);
+      this.storage.set(key, data);
     });
   }
 
   /**
    * Obtiene los datos de sensores en local
    */
-  getLocaldata() {
-    return this.storage.get(constants.KEY_SENSORES);
+  getLocaldata(key: string) {
+    return this.storage.get(key);
   }
 
+
+  /**
+   * Listado de sensores asignados a una estación
+   * @param id_estacion 
+   */
+  getListSensoresByEstacion(id_estacion: Number): Promise<ResponseData[]> {
+    return new Promise((resolve) => this.http.get(constants.URL_API_SENSORES_BY_ESTACION(id_estacion))
+      .map(res => res.json())
+      .subscribe((data: ResponseData[] = []) => {
+        // this.setLocaldata(data, );
+        return resolve(data);
+      }, err => {
+        // console.log("Error:", err);
+        // this.getLocaldata().then(res => resolve(res))
+      }))
+  }
 }
