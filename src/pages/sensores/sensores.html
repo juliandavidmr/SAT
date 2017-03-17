@@ -22,11 +22,13 @@
     <ion-card-content>
       <p>
         <ion-badge item-right>{{ item.NombreTipoSensor }}</ion-badge>
+        <ion-badge item-right color="secondary">{{ item.ultimo }}</ion-badge>
         <br>
         <strong>NombreSensor:</strong> {{item.NombreSensor}} <br>
         <strong>Tipo:</strong> {{ item.NombreTipoSensor }} <br>
         <strong>Estación:</strong> {{ item.Nombre }} <br>
         <strong>Descripción:</strong> {{ item.Descripcion1 }} <br>
+        <strong>Ultimo registro:</strong> {{ item.ultimo }} <br>
       </p>
     </ion-card-content>
 

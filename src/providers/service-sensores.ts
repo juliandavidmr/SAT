@@ -30,6 +30,9 @@ export interface ResponseData {
   idEstacion: Number
   idSensor: Number
   idTipoSensor: Number
+
+  // Atributos no propios del api
+  ultimo: Number
 }
 
 @Injectable()
@@ -42,10 +45,10 @@ export class ServiceSensores {
     console.log('Hello Sensores Provider');
   }
 
-  getDataSensor(id: Number) {
+  getDataSensor(id: Number): Promise<any[]> {
     return new Promise((resolve) => this.http.get(constants.URL_API_SENSORES_GET_DATA(id))
       .map(res => res.json())
-      .subscribe((data: ResponseData[] = []) => {
+      .subscribe((data = []) => {
         return resolve(data);
       }))
   }
