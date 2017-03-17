@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ServiceSensores, ResponseData } from '../../providers/service-sensores';
 import Chart from 'chart.js';
+import * as moment from 'moment';
+import 'moment/locale/es';
 
 /*
   Generated class for the SensorDetalle page.
@@ -17,6 +19,7 @@ export class SensorDetallePage {
 
   detalle: ResponseData;
   data_captura: any = [];
+  ultimo: Number = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -43,29 +46,47 @@ export class SensorDetallePage {
       var list_label: Array<string> = [];
       this.data_captura.map((item, index: Number) => {
         list_data.push(item.Dato);
-        list_label.push(item.insertDate);
+        list_label.push(moment(item.insertDate).format("MMM dddd hh:mm a"));
       })
-      this.loadGraphics('bar', list_label, list_data);
+      this.ultimo = list_data[0];
+      if (list_data.length >= 20) {
+        list_data = list_data.slice(0, 20);
+        list_label = list_label.slice(0, 20);
+      }
+      list_data = list_data.reverse();
+      list_label = list_label.reverse();
+
+      // Element canvas bar
+      var el1 = document.getElementById('grafica1');
+      this.loadGraphics(el1, 'line', list_label, list_data, 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)');
+
+      // Element canvas line
+      var el2 = document.getElementById('grafica2');
+      this.loadGraphics(el2, 'bar', list_label, list_data, 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)');
     })
   }
 
-  loadGraphics(type: string, labels: Array<string>, data: Array<Number>) {
+  loadGraphics(element: any, type: string, labels: Array<string>, data: Array<Number>, backgroundColor?: string, borderColor?: string) {
     try {
-      var el1 = document.getElementById('idSensor_temperatura');
       // var myChart = 
-      new Chart(el1, {
+      new Chart(element, {
         type: type,
         data: {
           labels: labels,
           datasets: [{
             label: 'Dato',
             data: data,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(153, 102, 255, 1)',
+            backgroundColor: backgroundColor || 'rgba(54, 162, 235, 0.2)',
+            borderColor: borderColor || 'rgba(153, 102, 255, 1)',
             borderWidth: 1
           }]
         },
         options: {
+          responsive: true,
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+          },
           scales: {
             yAxes: [{
               ticks: {

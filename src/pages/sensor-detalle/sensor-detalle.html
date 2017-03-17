@@ -10,10 +10,21 @@
   <div class="header-image"></div>
 
   <div class="main-content">
-    <h2>{{ detalle.NombreSensor }}</h2>
+    <label class="ultimo">
+      {{ ultimo }}
+    </label>
+    <label class="subtitle">     
+      Ultimo registro
+    </label>
+
+    <h2>
+      {{ detalle.NombreSensor }}
+    </h2>
+
     <p>
       {{ detalle.Descripcion1 }} {{ detalle.NombreTipoSensor }}
-      <canvas id="idSensor_temperatura" style="width:110%;height:100%;"></canvas>
+      <canvas id="grafica1" style="width:100%;height:110px;"></canvas>
+      <canvas id="grafica2" style="width:110%;height:100%;"></canvas>
     </p>
   </div>
 </ion-content>
