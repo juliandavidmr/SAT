@@ -21,6 +21,7 @@ import { ServiceEstaciones } from '../providers/service-estaciones';
 import { ServiceSensores } from '../providers/service-sensores';
 import { Load } from '../providers/load';
 import { DateMethod } from '../providers/date';
+import { Watchdog } from '../providers/watchdog';
 
 /* Components */
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
@@ -74,7 +75,8 @@ import { Storage } from '@ionic/storage';
     ServiceSensores,
     Load,
     DateMethod,
-    Storage
+    Storage,
+    Watchdog
   ]
 })
 export class AppModule { }

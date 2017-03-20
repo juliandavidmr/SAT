@@ -3,6 +3,7 @@ import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
+import { Watchdog } from '../providers/watchdog';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 export class MyApp {
   rootPage = TabsPage;
 
-  constructor(platform: Platform) {
+  constructor(platform: Platform, wd: Watchdog) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -20,6 +21,8 @@ export class MyApp {
 
       StatusBar.overlaysWebView(true); // let status bar overlay webview
       StatusBar.backgroundColorByHexString('#387ef5'); // set status bar to white
+
+      wd.start();
     });
   }
 }

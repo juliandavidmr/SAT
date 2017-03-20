@@ -45,8 +45,8 @@ export class ServiceSensores {
     console.log('Hello Sensores Provider');
   }
 
-  getDataSensor(id: Number): Promise<any[]> {
-    return new Promise((resolve) => this.http.get(constants.URL_API_SENSORES_GET_DATA(id))
+  getDataSensor(idSensor: Number): Promise<any[]> {
+    return new Promise((resolve) => this.http.get(constants.URL_API_SENSORES_GET_DATA(idSensor))
       .map(res => res.json())
       .subscribe((data = []) => {
         return resolve(data);
