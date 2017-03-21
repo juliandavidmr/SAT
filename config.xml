@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.sat674734" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>SAT</name>
+<widget id="com.anlijudavid.satflorencia505394" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>SATFlorencia</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
@@ -36,12 +36,6 @@
     <plugin name="cordova-plugin-statusbar" spec="2.2.1" />
     <plugin name="cordova-plugin-device" spec="1.1.4" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
-    <plugin name="cordova-plugin-googlemaps" spec="~1.4.0">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyCCBnt0HD0T9R2eDiWy6jvVZZfLsu7pAJI" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyCCBnt0HD0T9R2eDiWy6jvVZZfLsu7pAJI" />
-    </plugin>
-    <plugin name="cordova-plugin-nativestorage" spec="~2.2.1" />
-    <plugin name="cordova-plugin-geolocation" spec="~2.4.1" />
-    <plugin name="cordova-plugin-background-mode" spec="~0.7.2" />
     <plugin name="de.appplant.cordova.plugin.local-notification" spec="~0.8.4" />
+    <plugin name="cordova-plugin-background-mode" spec="~0.7.2" />
 </widget>

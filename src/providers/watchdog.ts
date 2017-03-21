@@ -18,7 +18,7 @@ export interface INotificaciones {
 @Injectable()
 export class Watchdog {
 
-  private interval_watch = 10000;     // Intervalo en el que se revisa los datos
+  private interval_watch = 5000;     // Intervalo en el que se revisa los datos
   private list_notificaciones: INotificaciones[] = [];   // Almacena temporalmente todas las notificaciones mostradas
   private last_notif: any;            // Almacena la fecha de la ultima notificacion mostrada
 
@@ -43,30 +43,32 @@ export class Watchdog {
    */
   findWarns(): void {
     this.sensores.getListSensores().then((res: ResponseData[] = []) => {
-      res.map((item, index) => {
-        const id = item.idSensor;
+      if (res) {
+        res.map((item, index) => {
+          const id = item.idSensor;
 
-        this.sensores.getDataSensor(id).then(_list => {
-          // console.log("Datos consultados del sensor", id, _list)
-          let state = this.range(item.Maximo, item.Minimo, _list);
-          switch (state.out) {
-            case 1:
-              if (this.isUpper()) {
-                this.notif(item.Nombre, state.msg);
-                this.last_notif = moment().toDate();
-              }
-              break;
-            case 2:
-              if (this.isUpper()) {
-                this.notif(item.Nombre, state.msg);
-                this.last_notif = moment().toDate();
-              }
-              break;
-            default:
-              break;
-          }
+          this.sensores.getDataSensor(id).then(_list => {
+            // console.log("Datos consultados del sensor", id, _list)
+            let state = this.range(item.Maximo, item.Minimo, _list);
+            switch (state.out) {
+              case 1:
+                if (this.isUpper()) {
+                  this.notif(item.Nombre, state.msg);
+                  this.last_notif = moment().toDate();
+                }
+                break;
+              case 2:
+                if (this.isUpper()) {
+                  this.notif(item.Nombre, state.msg);
+                  this.last_notif = moment().toDate();
+                }
+                break;
+              default:
+                break;
+            }
+          });
         });
-      });
+      }
     });
   }
 

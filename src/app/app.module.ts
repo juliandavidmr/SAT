@@ -26,7 +26,7 @@ import { Watchdog } from '../providers/watchdog';
 /* Components */
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,8 @@ import { Storage } from '@ionic/storage';
       modalLeave: 'modal-slide-out',
       tabsPlacement: 'top',
       pageTransition: 'ios'
-    })
+    }),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -75,7 +76,7 @@ import { Storage } from '@ionic/storage';
     ServiceSensores,
     Load,
     DateMethod,
-    Storage,
+    IonicStorageModule,
     Watchdog
   ]
 })
