@@ -6,7 +6,11 @@
 
 </ion-header>
 
-<ion-content padding no-margin>  
+<ion-content padding no-margin>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <p class="tiempo">Ultima actualización: {{ date.ahora(lastUpdate) }}</p>
 
   <ion-card *ngFor="let item of list_sensores" (click)="openDetalle(item)">

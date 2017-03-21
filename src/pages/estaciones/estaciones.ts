@@ -21,24 +21,37 @@ export class EstacionesPage {
   public list_estaciones: any = [];
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public estacion_api: ServiceEstaciones,
     public load: Load
   ) {
-    this.load.presentLoadingDefault();
-    this.estacion_api.getListEstaciones().then(data => {
-      this.list_estaciones = data;
+    this.loadData();
+  }
 
-      console.log('Estaciones: ', this.list_estaciones);
-      this.load.closeLoading();
-    }).catch(err => {
-      this.load.closeLoading();
+  doRefresh(refresher) {
+    this.loadData().then(_ => refresher.complete())
+  }
+
+  loadData() {
+    return new Promise((resolve, reject) => {
+      this.load.presentLoadingDefault();
+      this.estacion_api.getListEstaciones().then(data => {
+        this.list_estaciones = data;
+
+        console.log('Estaciones: ', this.list_estaciones);
+        this.load.closeLoading();
+
+        return resolve(true);
+      }).catch(err => {
+        this.load.closeLoading();
+        return resolve(true);
+      })
     })
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad EstacionesPage');  
+    console.log('ionViewDidLoad EstacionesPage');
   }
 
   openDetalleEstacion(estacion_params: any) {

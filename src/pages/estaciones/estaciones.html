@@ -13,6 +13,10 @@
 </ion-header>
 
 <ion-content padding no-margin class="list-avatar-page">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list no-border>
     <ion-list-header>
       Estaciones áctivas
@@ -24,7 +28,6 @@
       </ion-avatar>
       <h2>{{ item.Nombre }}</h2>
       <p>{{ item.Descripcion }}</p>
-      <ion-note item-right>{{ item.Latitud }} {{ item.Longitud }}</ion-note>
     </ion-item>
 
   </ion-list>

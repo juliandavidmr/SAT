@@ -19,8 +19,8 @@ import { DateMethod } from '../../providers/date';
 })
 export class SensoresPage {
 
-  public list_sensores: ResponseData[] = [];
-  public lastUpdate: any;
+  public list_sensores: ResponseData[] = []; // Listado de sensores
+  public lastUpdate: any;                    // Guarda la ultima fecha en que se consultaron los sensores
 
   constructor(
     public navCtrl: NavController,
@@ -32,32 +32,48 @@ export class SensoresPage {
     this.loadData()
   }
 
+  /**
+   * Detecta gesto de refrescar Listado
+   * @param refresher 
+   */
+  doRefresh(refresher) {
+    this.loadData().then(_ => refresher.complete());
+  }
+
+  /**
+   * Carga los datos del API
+   */
   loadData() {
-    this.load.presentLoadingDefault();
-    this.apisensores.getListSensores().then(data => {
-      this.list_sensores = data;
+    return new Promise((resolve) => {
+      this.load.presentLoadingDefault();
+      this.apisensores.getListSensores().then(data => {
+        this.list_sensores = data;
 
-      console.log('Sensores: ', this.list_sensores);
+        console.log('Sensores: ', this.list_sensores);
 
-      this.load.closeLoading();
+        this.load.closeLoading();
 
-      this.lastUpdate = Date.now();
+        this.lastUpdate = Date.now();
 
-      this.loadUltimoDato();
-    }).catch((err: any) => {
-      this.load.closeLoading(); // TODO: Hacer que la promesa getListSensores use el reject
+        this.loadUltimoDato();
+
+        return resolve(true);
+      }).catch((err: any) => {
+        this.load.closeLoading(); // TODO: Hacer que la promesa getListSensores use el reject
+
+        return resolve(true);
+      })
     })
   }
 
+  /**
+   * Consulta el ultimo dato registrado por cada sensor
+   */
   loadUltimoDato() {
     this.list_sensores.map((item, index) => {
-      // console.log("Recorriendo sensor: ", this.list_sensores[index].idSensor);
-      this.apisensores.getDataSensor(this.list_sensores[index].idSensor).then((result = []) => {
-        // console.log("Datos del sensor ", this.list_sensores[index].idSensor, result);
-        this.list_sensores[index].ultimo = result.length != 0? result[0].Dato: 0;
-      }).catch(err => {
-        console.log("Error: ", err)
-      })
+      this.apisensores.getLast(item.idSensor).then(count => {
+        this.list_sensores[index].ultimo = count;
+      });
     })
   }
 

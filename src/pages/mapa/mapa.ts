@@ -58,11 +58,20 @@ export class MapaPage {
       this.list_sensores = data;
 
       this.list_sensores.map((item, index) => {
-        this.addMarker([
-          parseFloat(item.Latitud), 
-          parseFloat(item.Longitud)], 
-          `${item.Nombre}-${item.NombreSensor}`
-        );
+        this.sensores.getLast(item.idSensor).then((count = 0) => {
+          this.addMarker([
+            parseFloat(item.Latitud),
+            parseFloat(item.Longitud)
+          ],
+            `${item.Nombre}-${item.NombreSensor}<br/><strong>Ultimo dato: ${count}</strong>`
+          );
+        }).catch(err => {
+          this.addMarker([
+            parseFloat(item.Latitud),
+            parseFloat(item.Longitud)],
+            `${item.Nombre}-${item.NombreSensor}`
+          );
+        })
         console.log("Cargado sensor ", index, item);
       })
     })
@@ -75,11 +84,12 @@ export class MapaPage {
     this.map = L.map('map').setView(this.center, this.zoom);
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">SAT Florencia</a> contributors'
+      attribution: '&copy; <a href="http://osm.org/copyright">SAT Florencia</a> GIECOM'
     }).addTo(this.map);
 
     L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
 
+    // Detecta cuando se hace click en el mapa
     this.map.on('click', (e) => {
       /*
       //marker Default
@@ -90,7 +100,8 @@ export class MapaPage {
       */
     });
 
-    this.addMarker(this.center, 'Florencia, Caquetá');
+    // Marcador por defecto
+    // this.addMarker(this.center, 'Florencia, Caquetá');
   }
 
   /**

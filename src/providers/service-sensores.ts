@@ -45,6 +45,18 @@ export class ServiceSensores {
     console.log('Hello Sensores Provider');
   }
 
+  /**
+   * Obtiene el ultimo dato registrado por un sensor
+   * @param idSensor 
+   */
+  getLast(idSensor: Number): Promise<Number> {
+    return new Promise((resolve, reject) => {
+      this.getDataSensor(idSensor).then(res => {
+        return resolve(res.length != 0 ? res[0].Dato : 0)
+      }).catch(err => resolve(0));
+    })
+  }
+
   getDataSensor(idSensor: Number): Promise<any[]> {
     return new Promise((resolve) => this.http.get(constants.URL_API_SENSORES_GET_DATA(idSensor))
       .map(res => res.json())
@@ -57,7 +69,7 @@ export class ServiceSensores {
     return new Promise((resolve) => this.http.get(constants.URL_API_SENSORES)
       .map(res => res.json())
       .subscribe((data: ResponseData[] = []) => {
-        this.setLocaldata(data,constants.KEY_SENSORES);
+        this.setLocaldata(data, constants.KEY_SENSORES);
         return resolve(data);
       }, err => {
         // console.log("Error:", err);
