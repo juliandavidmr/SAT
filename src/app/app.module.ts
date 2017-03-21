@@ -15,7 +15,6 @@ import { SensoresPage } from '../pages/sensores/sensores';
 import { SensorDetallePage } from '../pages/sensor-detalle/sensor-detalle';
 
 /* Providers */
-import { AuthService } from '../providers/auth-service';
 import { ServiceDatos } from '../providers/service-datos';
 import { ServiceEstaciones } from '../providers/service-estaciones';
 import { ServiceSensores } from '../providers/service-sensores';
@@ -70,7 +69,6 @@ import { IonicStorageModule } from '@ionic/storage';
     provide: ErrorHandler,
     useClass: IonicErrorHandler
   },
-    AuthService,
     ServiceDatos,
     ServiceEstaciones,
     ServiceSensores,

@@ -21,8 +21,6 @@ export class MyApp {
 
       StatusBar.overlaysWebView(true); // let status bar overlay webview
       StatusBar.backgroundColorByHexString('#387ef5'); // set status bar to white
-
-      wd.start();
     });
   }
 }
