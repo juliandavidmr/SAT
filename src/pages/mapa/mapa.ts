@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ServiceSensores, ResponseData } from '../../providers/service-sensores';
+import { ServiceEstaciones, IEstacion } from '../../providers/service-estaciones';
 import L from 'leaflet';
 
 /*
@@ -22,6 +23,7 @@ export class MapaPage {
   zoom: Number = 13;
 
   public list_sensores: ResponseData[] = [];
+  public list_estaciones: IEstacion[] = [];
 
   greenIcon = L.icon({
     iconUrl: 'assets/images/pin2.png',
@@ -35,7 +37,8 @@ export class MapaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public sensores: ServiceSensores) {
+    public sensores: ServiceSensores,
+    public estaciones: ServiceEstaciones) {
   }
 
   ionViewDidLoad() {
@@ -46,34 +49,33 @@ export class MapaPage {
   ngAfterViewInit() {
     this.loadMap();
 
-    this.loadSensores();
+    this.loadEstaciones();
   }
 
   /**
-   * Carga los sensores en el mapa
+   * Carga las estacioens en el mapa
    */
-  loadSensores() {
-    console.log("Sensores:", this.list_sensores);
-    this.sensores.getListSensores().then(data => {
-      this.list_sensores = data;
-
-      this.list_sensores.map((item, index) => {
-        this.sensores.getLast(item.idSensor).then((count = 0) => {
+  loadEstaciones() {
+    this.estaciones.getListEstaciones().then(list => {
+      list.map((estacion, index) => {
+        this.sensores.getListSensoresByEstacion(estacion.idEstacion).then(list_sensores => {
+          var html_li = [];
+          list_sensores.forEach(item_sensor => {
+            html_li.push(`<li>${item_sensor.NombreSensor}</li>`)
+          })
+          const html_content = `
+            <ul>
+              ${html_li.join('')}
+            </ul>
+          `;
           this.addMarker([
-            parseFloat(item.Latitud),
-            parseFloat(item.Longitud)
-          ],
-            `${item.Nombre}-${item.NombreSensor}<br/><strong>Ultimo dato: ${count}</strong>`
-          );
-        }).catch(err => {
-          this.addMarker([
-            parseFloat(item.Latitud),
-            parseFloat(item.Longitud)],
-            `${item.Nombre}-${item.NombreSensor}`
+            parseFloat(estacion.Latitud),
+            parseFloat(estacion.Longitud)],
+            html_content
           );
         })
-        console.log("Cargado sensor ", index, item);
       })
+      console.log("Listado de estaciones: ", list)      
     })
   }
 

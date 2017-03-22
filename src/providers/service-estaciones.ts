@@ -6,6 +6,13 @@ import 'rxjs/add/operator/catch';
 
 import * as constants from './constants';
 
+export interface IEstacion {
+  Descripcion: string
+  Latitud: string
+  Longitud: string
+  Nombre: string
+  idEstacion: Number
+}
 /*
   Generated class for the ServiceEstaciones provider.
 
@@ -22,7 +29,10 @@ export class ServiceEstaciones {
     console.log('Hello ServiceEstaciones Provider');
   }
 
-  getListEstaciones() {
+  /**
+   * Obtiene listado de estaciones
+   */
+  getListEstaciones(): Promise<IEstacion[]> {
     return new Promise((resolve, reject) => this.http.get(constants.URL_API_ESTACIONES)
       .map(res => res.json())
       .subscribe((data: any = []) => {
@@ -38,7 +48,7 @@ export class ServiceEstaciones {
   * Almacena los datos de sensores en local
   * @param data 
   */
-  setLocaldata(data = []) {
+  private setLocaldata(data = []) {
     this.storage.ready().then(() => {
       this.storage.set(constants.KEY_ESTACIONES, data);
     });
@@ -47,7 +57,7 @@ export class ServiceEstaciones {
   /**
    * Obtiene los datos de sensores en local
    */
-  getLocaldata() {
+  private getLocaldata() {
     return this.storage.get(constants.KEY_ESTACIONES);
   }
 

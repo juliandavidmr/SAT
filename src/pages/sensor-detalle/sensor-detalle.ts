@@ -58,15 +58,15 @@ export class SensorDetallePage {
 
       // Element canvas bar
       var el1 = document.getElementById('grafica1');
-      this.loadGraphics(el1, 'line', list_label, list_data, 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)');
+      this.loadGraphics(el1, 'line', list_label, list_data, 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)', false);
 
       // Element canvas line
       var el2 = document.getElementById('grafica2');
-      this.loadGraphics(el2, 'bar', list_label, list_data, 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)');
+      this.loadGraphics(el2, 'radar', list_label, list_data, null, null, false);
     })
   }
 
-  loadGraphics(element: any, type: string, labels: Array<string>, data: Array<Number>, backgroundColor?: string, borderColor?: string) {
+  loadGraphics(element: any, type: string, labels: Array<string>, data: Array<Number>, backgroundColor?: string, borderColor?: string, beginAtZero?: Boolean) {
     try {
       // var myChart = 
       new Chart(element, {
@@ -76,8 +76,8 @@ export class SensorDetallePage {
           datasets: [{
             label: 'Dato',
             data: data,
-            backgroundColor: backgroundColor || 'rgba(54, 162, 235, 0.2)',
-            borderColor: borderColor || 'rgba(153, 102, 255, 1)',
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
             borderWidth: 1
           }]
         },
@@ -90,7 +90,7 @@ export class SensorDetallePage {
           scales: {
             yAxes: [{
               ticks: {
-                beginAtZero: true
+                beginAtZero: (beginAtZero == null)? beginAtZero: false
               }
             }],
             xAxes: [{
