@@ -13,6 +13,30 @@ export interface IEstacion {
   Nombre: string
   idEstacion: Number
 }
+
+export interface ISensorConDato {
+  idSensor: Number,
+  NombreSensor: string,
+  Referencia: string,
+  Descripcion: string,
+  Maximo: Number,
+  Minimo: Number,
+  Altura: Number,
+  FK_idTipoSensor: Number,
+  FK_idEstacion: Number,
+  idEstacion: Number,
+  Nombre: string,
+  Descripcion1: string,
+  Latitud: string,
+  Longitud: string,
+  idDato: Number,
+  Dato: Number,
+  insertDate: Date,
+  uptdateDate: Date,
+  FK_idSensor: Number,
+  DateDato: Date,
+  TimeDato: Date
+}
 /*
   Generated class for the ServiceEstaciones provider.
 
@@ -42,6 +66,23 @@ export class ServiceEstaciones {
         // console.log("Error:", err);
         this.getLocaldata().then(res => resolve(res))
       }));
+  }
+
+  /**
+   * Obtiene los sensores de cada estacion incluyendo el ultimo dato que se registro por el sensor
+   * @param idEstacion 
+   */
+  getSensoresDatosByEstacion(idEstacion: Number): Promise<ISensorConDato[]> {
+    return new Promise((resolve, reject) =>
+      this.http.get(constants.URL_API_SENSORES_DATOS_BY_ESTACION(idEstacion))
+        .map(res => res.json())
+        .subscribe((data: ISensorConDato[] = []) => {
+          return resolve(data)
+        }, err => {
+          // console.log("Error:", err);
+          return reject(err);
+        })
+    );
   }
 
   /**

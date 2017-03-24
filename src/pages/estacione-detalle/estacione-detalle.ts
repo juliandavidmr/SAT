@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ServiceSensores, ResponseData } from '../../providers/service-sensores';
+import { ServiceSensores } from '../../providers/service-sensores';
 import { SensorDetallePage } from '../sensor-detalle/sensor-detalle';
+import { ServiceEstaciones, ISensorConDato } from '../../providers/service-estaciones';
+import { Load } from '../../providers/load';
 
 /*
   Generated class for the EstacioneDetalle page.
@@ -16,12 +18,14 @@ import { SensorDetallePage } from '../sensor-detalle/sensor-detalle';
 export class EstacioneDetallePage {
 
   public detalle: any = [];
-  public list_sensores: ResponseData[] = [];
+  public list_sensores: ISensorConDato[] = [];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public sensores: ServiceSensores
+    public sensores: ServiceSensores,
+    public estaciones: ServiceEstaciones,
+    public load: Load
   ) {
     this.detalle = this.navParams.data;
 
@@ -34,11 +38,15 @@ export class EstacioneDetallePage {
   }
 
   loadSensores() {
+    this.load.presentLoadingDefault();
     console.log(this.detalle.idEstacion);
-    this.sensores.getListSensoresByEstacion(this.detalle.idEstacion).then((sens: ResponseData[]) => {
+    this.estaciones.getSensoresDatosByEstacion(this.detalle.idEstacion).then((sens) => {
       this.list_sensores = sens;
-      console.log("Sensores de la estacion " + this.detalle.idEstacion, sens)
-    });
+      console.log("Sensores de la estacion " + this.detalle.idEstacion, sens);
+      this.load.closeLoading();
+    }).catch(err => {
+      this.load.closeLoading();
+    })
   }
 
   openDetalle(params) {

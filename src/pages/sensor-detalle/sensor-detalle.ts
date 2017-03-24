@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ServiceSensores, ResponseData } from '../../providers/service-sensores';
+import { ServiceSensores } from '../../providers/service-sensores';
+import { ISensorConDato } from '../../providers/service-estaciones';
+import { Load } from '../../providers/load';
 import Chart from 'chart.js';
 import * as moment from 'moment';
 import 'moment/locale/es';
@@ -17,16 +19,19 @@ import 'moment/locale/es';
 })
 export class SensorDetallePage {
 
-  detalle: ResponseData;
-  data_captura: any = [];
+  detalle: ISensorConDato;
+  data_captura: any[] = [];
   ultimo: Number = 0;
+  fecha_ultimo: string;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public sensores: ServiceSensores
+    public sensores: ServiceSensores,
+    public load: Load
   ) {
     this.detalle = this.navParams.data;
+    this.fecha_ultimo = moment(this.detalle.insertDate).fromNow();
     console.log("Detalle sensor: ", this.detalle.idSensor);
   }
 
@@ -36,6 +41,8 @@ export class SensorDetallePage {
   }
 
   loadDCaptura() {
+    this.load.presentLoadingDefault();
+
     var id = this.detalle.idSensor;
     this.sensores.getDataSensor(id).then(_data => {
       this.data_captura = _data;
@@ -63,6 +70,10 @@ export class SensorDetallePage {
       // Element canvas line
       var el2 = document.getElementById('grafica2');
       this.loadGraphics(el2, 'radar', list_label, list_data, null, null, false);
+
+      this.load.closeLoading();
+    }).catch(err => {
+      this.load.closeLoading();
     })
   }
 
@@ -90,7 +101,7 @@ export class SensorDetallePage {
           scales: {
             yAxes: [{
               ticks: {
-                beginAtZero: (beginAtZero == null)? beginAtZero: false
+                beginAtZero: (beginAtZero == null) ? beginAtZero : false
               }
             }],
             xAxes: [{

@@ -13,16 +13,18 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>{{ detalle.Nombre }}</h2>
-  <br>
-  <strong>Descripción:</strong>
-  {{ detalle.Descripcion }}
-  <br>
-
   <ion-list>
-    <ion-item *ngFor="let item of list_sensores" (click)="openDetalle(item)">
-      <h2>{{ item.NombreSensor }}</h2>
-      <p>{{ item.NombreTipoSensor }}</p>
-    </ion-item>
+    <ion-list>
+      <ion-list-header>
+        <h2>{{ detalle.Nombre }}</h2>
+        {{ detalle.Descripcion }}
+      </ion-list-header>
+      <ion-item *ngFor="let item of list_sensores" (click)="openDetalle(item)">
+        <ion-icon name="leaf" item-left color="secondary"></ion-icon>
+        <h2>{{ item.NombreSensor }}</h2>
+        <h3>Ultimo dato: <strong>{{ item.Dato }}</strong></h3>
+        <p>{{ item.NombreTipoSensor }}</p>
+      </ion-item>
+    </ion-list>
   </ion-list>
 </ion-content>
