@@ -31,7 +31,11 @@ export class SensorDetallePage {
     public load: Load
   ) {
     this.detalle = this.navParams.data;
-    this.fecha_ultimo = moment(this.detalle.insertDate).fromNow();
+    console.log("Dato date: ", this.detalle);
+
+    if (this.detalle.insertDate != undefined) {
+      this.fecha_ultimo = moment(this.detalle.insertDate).fromNow();
+    }
     console.log("Detalle sensor: ", this.detalle.idSensor);
   }
 
@@ -55,7 +59,12 @@ export class SensorDetallePage {
         list_data.push(item.Dato);
         list_label.push(moment(item.insertDate).format("MMM dddd hh:mm a"));
       })
+      // Obtiene la ultima fecha del dato capturado
+      this.fecha_ultimo = moment(this.data_captura[0].insertDate).fromNow();
+      
+      // Obtiene el ultimo dato (Numero) capturado
       this.ultimo = list_data[0];
+      
       if (list_data.length >= 20) {
         list_data = list_data.slice(0, 20);
         list_label = list_label.slice(0, 20);

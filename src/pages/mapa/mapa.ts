@@ -18,13 +18,14 @@ export class MapaPage {
 
   map: any = {};
   center: Array<Number> = [
-    1.6208841, -75.6051835
+    1.719863, -75.634241
   ]
-  zoom: Number = 13;
+  zoom: Number = 12;
 
   public list_sensores: ResponseData[] = [];
   public list_estaciones: IEstacion[] = [];
 
+  // Configuracion del mapa
   greenIcon = L.icon({
     iconUrl: 'assets/images/pin2.png',
     iconSize: [43, 45], // size of the icon
@@ -58,14 +59,20 @@ export class MapaPage {
   loadEstaciones() {
     this.estaciones.getListEstaciones().then(list => {
       list.map((estacion, index) => {
-        this.sensores.getListSensoresByEstacion(estacion.idEstacion).then(list_sensores => {
+        this.estaciones.getSensoresDatosByEstacion(estacion.idEstacion).then(list_sensores => {
           var html_li = [];
           list_sensores.forEach(item_sensor => {
-            html_li.push(`<li>${item_sensor.NombreSensor}</li>`)
+            html_li.push(`
+              <li>
+                ${item_sensor.NombreSensor}
+                . Dato:           
+                <strong>${item_sensor.Dato ? item_sensor.Dato : 0}</strong>
+              </li>
+            `)
           })
           const html_content = `
             <ul>
-              ${html_li.join('')}
+              ${html_li.length > 0 ? html_li.join('') : '<li>Sin sensores</li>'}
             </ul>
           `;
           this.addMarker([
@@ -75,7 +82,7 @@ export class MapaPage {
           );
         })
       })
-      console.log("Listado de estaciones: ", list)      
+      console.log("Listado de estaciones: ", list)
     })
   }
 
