@@ -22,7 +22,8 @@ export class SensorDetallePage {
   detalle: ISensorConDato;
   data_captura: any[] = [];
   ultimo: Number = 0;
-  fecha_ultimo: string;
+  fecha_ultimo: string;   // Ej: hace 4 dias
+  fecha_ultimo2: string;  // Ej: 2017-03-23 ...
 
   constructor(
     public navCtrl: NavController,
@@ -34,7 +35,7 @@ export class SensorDetallePage {
     console.log("Dato date: ", this.detalle);
 
     if (this.detalle.insertDate != undefined) {
-      this.fecha_ultimo = moment(this.detalle.insertDate).fromNow();
+      this.setFecha(this.detalle.insertDate);
     }
     console.log("Detalle sensor: ", this.detalle.idSensor);
   }
@@ -42,6 +43,11 @@ export class SensorDetallePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad SensorDetallePage');
     this.loadDCaptura();
+  }
+
+  setFecha(date: string | Date) {
+    this.fecha_ultimo = moment(date).fromNow();
+    this.fecha_ultimo2 = moment(date).format("MMM dddd hh:mm a");
   }
 
   loadDCaptura() {
@@ -60,11 +66,11 @@ export class SensorDetallePage {
         list_label.push(moment(item.insertDate).format("MMM dddd hh:mm a"));
       })
       // Obtiene la ultima fecha del dato capturado
-      this.fecha_ultimo = moment(this.data_captura[0].insertDate).fromNow();
-      
+      this.setFecha(this.data_captura[0].insertDate);
+
       // Obtiene el ultimo dato (Numero) capturado
       this.ultimo = list_data[0];
-      
+
       if (list_data.length >= 20) {
         list_data = list_data.slice(0, 20);
         list_label = list_label.slice(0, 20);
