@@ -64,13 +64,13 @@ export class MapaPage {
           list_sensores.forEach(item_sensor => {
             html_li.push(`
               <li>
-                ${item_sensor.NombreSensor}
-                . Dato:           
+                ${item_sensor.NombreSensor}:           
                 <strong>${item_sensor.Dato ? item_sensor.Dato : 0}</strong>
               </li>
             `)
           })
           const html_content = `
+            ${estacion.Nombre} <br/>
             <ul>
               ${html_li.length > 0 ? html_li.join('') : '<li>Sin sensores</li>'}
             </ul>
