@@ -29,7 +29,7 @@ export class EstacioneDetallePage {
   ) {
     this.detalle = this.navParams.data;
 
-    console.log(this.detalle);
+    console.log('Estacion detalle:', this.detalle);
   }
 
   ionViewDidLoad() {
@@ -43,6 +43,9 @@ export class EstacioneDetallePage {
     this.estaciones.getSensoresDatosByEstacion(this.detalle.idEstacion).then((sens) => {
       this.list_sensores = sens;
       console.log("Sensores de la estacion " + this.detalle.idEstacion, sens);
+
+      // this.list_sensores[0].Referencia
+
       this.load.closeLoading();
     }).catch(err => {
       this.load.closeLoading();

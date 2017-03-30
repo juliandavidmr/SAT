@@ -26,6 +26,7 @@ import { Watchdog } from '../providers/watchdog';
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 
 import { IonicStorageModule } from '@ionic/storage';
+import { LocalNotifications } from 'ionic-native';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { IonicStorageModule } from '@ionic/storage';
     Load,
     DateMethod,
     IonicStorageModule,
-    Watchdog
+    Watchdog,
+    LocalNotifications
   ]
 })
 export class AppModule { }
