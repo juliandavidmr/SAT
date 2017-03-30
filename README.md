@@ -30,3 +30,7 @@ $ yarn add @ionic-native/background-mode
 ```
 
 ## Certificar app
+
+
+https://www.thepolyglotdeveloper.com/2016/07/using-local-notifications-ionic-2-mobile-app/
+https://ionicframework.com/docs/resources/developer-tips/
