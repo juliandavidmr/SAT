@@ -40,6 +40,15 @@ export class SensorDetallePage {
     console.log("Detalle sensor: ", this.detalle.idSensor);
   }
 
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 2000);
+  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad SensorDetallePage');
     this.loadDCaptura();
@@ -51,44 +60,49 @@ export class SensorDetallePage {
   }
 
   loadDCaptura() {
-    this.load.presentLoadingDefault();
+    return new Promise((resolve, reject) => {
+      this.load.presentLoadingDefault();
 
-    var id = this.detalle.idSensor;
-    this.sensores.getDataSensor(id).then(_data => {
-      this.data_captura = _data;
+      var id = this.detalle.idSensor;
+      this.sensores.getDataSensor(id).then(_data => {
+        this.data_captura = _data;
 
-      console.log("Capturados: ", this.data_captura);
+        console.log("Capturados: ", this.data_captura);
 
-      var list_data: Array<Number> = [];
-      var list_label: Array<string> = [];
-      this.data_captura.map((item, index: Number) => {
-        list_data.push(item.Dato);
-        list_label.push(moment(item.insertDate).format("MMM dddd hh:mm a"));
+        var list_data: Array<Number> = [];
+        var list_label: Array<string> = [];
+        this.data_captura.map((item, index: Number) => {
+          list_data.push(item.Dato);
+          list_label.push(moment(item.insertDate).format("MMM dddd hh:mm a"));
+        })
+        // Obtiene la ultima fecha del dato capturado
+        this.setFecha(this.data_captura[0].insertDate);
+
+        // Obtiene el ultimo dato (Numero) capturado
+        this.ultimo = list_data[0];
+
+        if (list_data.length >= 20) {
+          list_data = list_data.slice(0, 20);
+          list_label = list_label.slice(0, 20);
+        }
+        list_data = list_data.reverse();
+        list_label = list_label.reverse();
+
+        // Element canvas bar
+        var el1 = document.getElementById('grafica1');
+        this.loadGraphics(el1, 'line', list_label, list_data, 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)', false);
+
+        // Element canvas line
+        var el2 = document.getElementById('grafica2');
+        this.loadGraphics(el2, 'radar', list_label, list_data, null, null, false);
+
+        this.load.closeLoading();
+        return resolve(true)
+      }).catch(err => {
+        this.load.closeLoading();
+        return resolve(true)
       })
-      // Obtiene la ultima fecha del dato capturado
-      this.setFecha(this.data_captura[0].insertDate);
 
-      // Obtiene el ultimo dato (Numero) capturado
-      this.ultimo = list_data[0];
-
-      if (list_data.length >= 20) {
-        list_data = list_data.slice(0, 20);
-        list_label = list_label.slice(0, 20);
-      }
-      list_data = list_data.reverse();
-      list_label = list_label.reverse();
-
-      // Element canvas bar
-      var el1 = document.getElementById('grafica1');
-      this.loadGraphics(el1, 'line', list_label, list_data, 'rgba(54, 162, 235, 0.2)', 'rgba(153, 102, 255, 0.2)', false);
-
-      // Element canvas line
-      var el2 = document.getElementById('grafica2');
-      this.loadGraphics(el2, 'radar', list_label, list_data, null, null, false);
-
-      this.load.closeLoading();
-    }).catch(err => {
-      this.load.closeLoading();
     })
   }
 
