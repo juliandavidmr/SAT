@@ -19,13 +19,13 @@ export interface INotificaciones {
 @Injectable()
 export class Watchdog {
 
-  private interval_watch = 5000;     // Intervalo en el que se revisa los datos
+  private interval_watch: number = 5000;     // Intervalo en el que se revisa los datos
   private list_notificaciones: INotificaciones[] = [];   // Almacena temporalmente todas las notificaciones mostradas
   private last_notif: any;            // Almacena la fecha de la ultima notificacion mostrada
 
-  constructor(public http: Http,
+  constructor(
     public sensores: ServiceSensores,
- //   private backgroundMode: BackgroundMode,
+    private backgroundMode: BackgroundMode,
     public notif: Notif) {
     console.log('Hello Watchdog Provider');
   }
@@ -33,11 +33,11 @@ export class Watchdog {
   /**
    * Activa la funcionalidad de segundo plano
    */
-  /*enable(): void {
+  enable(): void {
     if (!this.backgroundMode.isEnabled()) {
       this.backgroundMode.enable();
     }
-  }*/
+  }
 
   /**
    * Corre un proceso en segundo plano que se ejecuta cada cierto tiempo.
