@@ -21,11 +21,13 @@ import { ServiceSensores } from '../providers/service-sensores';
 import { Load } from '../providers/load';
 import { DateMethod } from '../providers/date';
 import { Watchdog } from '../providers/watchdog';
+import { Notif } from '../providers/notif';
 
 /* Components */
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 
 import { IonicStorageModule } from '@ionic/storage';
+import { LocalNotifications } from 'ionic-native';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,9 @@ import { IonicStorageModule } from '@ionic/storage';
     Load,
     DateMethod,
     IonicStorageModule,
-    Watchdog
+    Watchdog,
+    LocalNotifications,
+    Notif
   ]
 })
 export class AppModule { }

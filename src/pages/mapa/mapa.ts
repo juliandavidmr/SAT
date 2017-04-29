@@ -6,9 +6,6 @@ import L from 'leaflet';
 
 /*
   Generated class for the Mapa page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
 */
 @Component({
   selector: 'page-mapa',
@@ -20,7 +17,7 @@ export class MapaPage {
   center: Array<Number> = [
     1.719863, -75.634241
   ]
-  zoom: Number = 12;
+  zoom: Number = 11;
 
   public list_sensores: ResponseData[] = [];
   public list_estaciones: IEstacion[] = [];

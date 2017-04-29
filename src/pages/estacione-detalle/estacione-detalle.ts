@@ -29,7 +29,15 @@ export class EstacioneDetallePage {
   ) {
     this.detalle = this.navParams.data;
 
-    console.log(this.detalle);
+    console.log('Estacion detalle:', this.detalle);
+  }
+
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    this.loadSensores().then(_ => {
+      refresher.complete();
+    })
   }
 
   ionViewDidLoad() {
@@ -38,14 +46,21 @@ export class EstacioneDetallePage {
   }
 
   loadSensores() {
-    this.load.presentLoadingDefault();
-    console.log(this.detalle.idEstacion);
-    this.estaciones.getSensoresDatosByEstacion(this.detalle.idEstacion).then((sens) => {
-      this.list_sensores = sens;
-      console.log("Sensores de la estacion " + this.detalle.idEstacion, sens);
-      this.load.closeLoading();
-    }).catch(err => {
-      this.load.closeLoading();
+    return new Promise((resolve, reject) => {
+      this.load.presentLoadingDefault();
+      console.log(this.detalle.idEstacion);
+      this.estaciones.getSensoresDatosByEstacion(this.detalle.idEstacion).then((sens) => {
+        this.list_sensores = sens;
+        console.log("Sensores de la estacion " + this.detalle.idEstacion, sens);
+
+        // this.list_sensores[0].Referencia
+
+        this.load.closeLoading();
+        return resolve(true);
+      }).catch(err => {
+        this.load.closeLoading();
+        return resolve(true);
+      })
     })
   }
 

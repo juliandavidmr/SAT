@@ -7,6 +7,10 @@
 </ion-header>
 
 <ion-content padding parallax-header>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="header-image"></div>
 
   <div class="content">

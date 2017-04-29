@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { ServiceSensores, ResponseData } from './service-sensores';
-import { LocalNotifications } from 'ionic-native';
 import * as moment from 'moment';
 import 'rxjs/add/operator/map';
+import { Notif } from './notif';
 
 
 /**
@@ -18,14 +17,25 @@ export interface INotificaciones {
 @Injectable()
 export class Watchdog {
 
-  private interval_watch = 5000;     // Intervalo en el que se revisa los datos
+  private interval_watch: number = 5000;     // Intervalo en el que se revisa los datos
   private list_notificaciones: INotificaciones[] = [];   // Almacena temporalmente todas las notificaciones mostradas
   private last_notif: any;            // Almacena la fecha de la ultima notificacion mostrada
 
-  constructor(public http: Http,
-    public sensores: ServiceSensores) {
+  constructor(
+    public sensores: ServiceSensores,
+    public notif: Notif) {
     console.log('Hello Watchdog Provider');
   }
+
+  /**
+   * Activa la funcionalidad de segundo plano
+   */
+  /*
+  enable(): void {
+    if (!this.backgroundMode.isEnabled()) {
+      this.backgroundMode.enable();
+    }
+  }*/
 
   /**
    * Corre un proceso en segundo plano que se ejecuta cada cierto tiempo.
@@ -53,13 +63,13 @@ export class Watchdog {
             switch (state.out) {
               case 1:
                 if (this.isUpper()) {
-                  this.notif(item.Nombre, state.msg);
+                  this.notif.show(item.Nombre, state.msg);
                   this.last_notif = moment().toDate();
                 }
                 break;
               case 2:
                 if (this.isUpper()) {
-                  this.notif(item.Nombre, state.msg);
+                  this.notif.show(item.Nombre, state.msg);
                   this.last_notif = moment().toDate();
                 }
                 break;
@@ -101,24 +111,6 @@ export class Watchdog {
         }
       });
     }
-  }
-
-  /**
-   * Muestra una notification en el telefono
-   * @param title 
-   * @param text 
-   * @param data 
-   * @param sound 
-   */
-  notif(title: string, text: string, data?: {}, sound?: string) {
-    // Schedule a single notification
-    LocalNotifications.schedule({
-      id: 1,
-      title: title,
-      text: text,
-      data: {},
-      sound: null
-    });
   }
 
   /**
