@@ -50,13 +50,13 @@
   dependencies:
     tsickle "^0.2"
 
-"@ionic-native/background-mode@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/background-mode/-/background-mode-3.1.0.tgz#a34539e2e6c797c2604f0efbf799c488261e72b0"
+"@ionic-native/background-mode@^3.6.1":
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/@ionic-native/background-mode/-/background-mode-3.6.1.tgz#5ecf1afd40ca76d38f252301812c071b88d55007"
 
-"@ionic-native/local-notifications@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/local-notifications/-/local-notifications-3.1.0.tgz#6377a563faf737fc47539430c21be7c9efb9e810"
+"@ionic-native/local-notifications@^3.4.3":
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/@ionic-native/local-notifications/-/local-notifications-3.6.1.tgz#fa93da75e0ee2b03316794dd6de48cb7f7615f7a"
 
 "@ionic/app-scripts@1.1.4":
   version "1.1.4"
