@@ -6,6 +6,7 @@ import { SensoresPage } from '../sensores/sensores';
 import { EstacionesPage } from '../estaciones/estaciones';
 import { LoginPage } from '../login/login';
 import { MapaPage } from '../mapa/mapa';
+import { ResumenPage } from '../resumen/resumen';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -19,4 +20,5 @@ export class TabsPage {
   tab4Root: any = EstacionesPage;
   tab5Root: any = LoginPage;
   tabMapa: any = MapaPage;
+  tabResumen: any = ResumenPage;
 }

@@ -1,0 +1,34 @@
+<!--
+  Generated template for the Resumen page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Resumen</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Resumen diario
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Sensor</ion-label>
+        <ion-select [(ngModel)]="sensor" interface="popover">
+          <ion-option value="0">Ninguno</ion-option>
+          <ion-option *ngFor="let item of list_sensores" [value]="item.idSensor" text-wrap>{{item.Descripcion1}}</ion-option>          
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Día</ion-label>
+        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event"></ion-datetime>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
