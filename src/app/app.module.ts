@@ -13,6 +13,7 @@ import { LoginPage } from '../pages/login/login';
 import { MapaPage } from '../pages/mapa/mapa';
 import { SensoresPage } from '../pages/sensores/sensores';
 import { SensorDetallePage } from '../pages/sensor-detalle/sensor-detalle';
+import { ResumenPage } from '../pages/resumen/resumen'
 
 /* Providers */
 import { ServiceDatos } from '../providers/service-datos';
@@ -41,7 +42,8 @@ import { LocalNotifications } from 'ionic-native';
     ParallaxHeader,
     MapaPage,
     SensoresPage,
-    SensorDetallePage
+    SensorDetallePage,
+    ResumenPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -65,7 +67,8 @@ import { LocalNotifications } from 'ionic-native';
     LoginPage,
     MapaPage,
     SensoresPage,
-    SensorDetallePage
+    SensorDetallePage,
+    ResumenPage
   ],
   providers: [{
     provide: ErrorHandler,
