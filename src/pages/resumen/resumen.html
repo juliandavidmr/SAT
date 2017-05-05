@@ -17,18 +17,26 @@
     <ion-card-header>
       Resumen diario
     </ion-card-header>
+
     <ion-card-content>
       <ion-item>
         <ion-label>Sensor</ion-label>
         <ion-select [(ngModel)]="sensor" interface="popover">
           <ion-option value="0">Ninguno</ion-option>
-          <ion-option *ngFor="let item of list_sensores" [value]="item.idSensor" text-wrap>{{item.Descripcion1}}</ion-option>          
+          <ion-option *ngFor="let item of list_sensores" [value]="item.idSensor" text-wrap>{{item.Descripcion1}}</ion-option>
         </ion-select>
       </ion-item>
+
       <ion-item>
-        <ion-label>Día</ion-label>
-        <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event"></ion-datetime>
+        <ion-label>Dia</ion-label>
+        <ion-datetime displayFormat="MMMM DD YYYY" [(ngModel)]="fecha" min="2016" pickerFormat="MMMM DD YYYY">
+        </ion-datetime>
       </ion-item>
+
+      <button ion-button full outline>
+        <ion-icon name="ios-analytics"></ion-icon>
+        Ver resumen
+      </button>
     </ion-card-content>
   </ion-card>
 </ion-content>
