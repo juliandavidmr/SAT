@@ -1,15 +1,7 @@
-<!--
-  Generated template for the Resumen page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar color="primary">
     <ion-title>Resumen</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content padding>
@@ -22,7 +14,6 @@
       <ion-item>
         <ion-label>Sensor</ion-label>
         <ion-select [(ngModel)]="sensor" interface="popover">
-          <ion-option value="0">Ninguno</ion-option>
           <ion-option *ngFor="let item of list_sensores" [value]="item.idSensor" text-wrap>{{item.Descripcion1}}</ion-option>
         </ion-select>
       </ion-item>
@@ -37,6 +28,8 @@
         <ion-icon name="ios-analytics"></ion-icon>
         Ver resumen
       </button>
+
+      <grafica-component hero="julian"></grafica-component>
     </ion-card-content>
   </ion-card>
 </ion-content>

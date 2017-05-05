@@ -29,6 +29,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 
 import { IonicStorageModule } from '@ionic/storage';
 import { LocalNotifications } from 'ionic-native';
+import { GraficaComponent } from '../components/grafica-component/grafica-component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { LocalNotifications } from 'ionic-native';
     MapaPage,
     SensoresPage,
     SensorDetallePage,
-    ResumenPage
+    ResumenPage,
+    GraficaComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -68,7 +70,8 @@ import { LocalNotifications } from 'ionic-native';
     MapaPage,
     SensoresPage,
     SensorDetallePage,
-    ResumenPage
+    ResumenPage,
+    GraficaComponent
   ],
   providers: [{
     provide: ErrorHandler,
