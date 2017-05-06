@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { ServiceSensores, ResponseData } from '../../providers/service-sensores';
+import { ServiceSensores } from '../../providers/service-sensores';
 import { ServiceEstaciones, IEstacion } from '../../providers/service-estaciones';
 import L from 'leaflet';
+import moment from 'moment'
 
 /*
   Generated class for the Mapa page.
@@ -13,14 +14,16 @@ import L from 'leaflet';
 })
 export class MapaPage {
 
+  stylemap: string = 'height:80%;'
   map: any = {};
   center: Array<Number> = [
     1.719863, -75.634241
   ]
   zoom: Number = 11;
 
-  public list_sensores: ResponseData[] = [];
+  public list_sensores = [];
   public list_estaciones: IEstacion[] = [];
+  public list_sensores_bottom = []
 
   // Configuracion del mapa
   greenIcon = L.icon({
@@ -50,36 +53,58 @@ export class MapaPage {
     this.loadEstaciones();
   }
 
+  doRefresh(refresher) {
+    console.log("Map element:", this.map);
+
+    this.map.eachLayer(layer => {
+      // console.log("Layer", layer);
+      this.map.removeLayer(layer)
+    })
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://200.21.7.94/sat">SAT Florencia</a> GIECOM'
+    }).addTo(this.map);
+
+    L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
+    this.loadEstaciones().then(() => refresher.complete())
+  }
+
+
   /**
    * Carga las estacioens en el mapa
    */
   loadEstaciones() {
-    this.estaciones.getListEstaciones().then(list => {
-      list.map((estacion, index) => {
-        this.estaciones.getSensoresDatosByEstacion(estacion.idEstacion).then(list_sensores => {
-          var html_li = [];
-          list_sensores.forEach(item_sensor => {
-            html_li.push(`
+    return new Promise(resolve => {
+      this.estaciones.getListEstaciones().then(list => {
+        list.map((estacion, index) => {
+          this.estaciones.getSensoresDatosByEstacion(estacion.idEstacion).then(list_sensores => {
+            list_sensores.map(el => this.list_sensores.push(el));
+
+            var html_li = [];
+            list_sensores.forEach(item_sensor => {
+              html_li.push(`
               <li>
                 ${item_sensor.NombreSensor}:           
-                <strong>${item_sensor.Dato ? item_sensor.Dato : 0}</strong>
+                <strong>${item_sensor.Dato ? item_sensor.Dato : 0}</strong> |
+                <small>${moment(item_sensor.DateDato).fromNow()}</small>
               </li>
             `)
-          })
-          const html_content = `
+            })
+            const html_content = `
             ${estacion.Nombre} <br/>
             <ul>
               ${html_li.length > 0 ? html_li.join('') : '<li>Sin sensores</li>'}
             </ul>
           `;
-          this.addMarker([
-            parseFloat(estacion.Latitud),
-            parseFloat(estacion.Longitud)],
-            html_content
-          );
+            this.addMarker([
+              parseFloat(estacion.Latitud),
+              parseFloat(estacion.Longitud)],
+              html_content
+            );
+          })
         })
+        console.log("Listado de estaciones: ", list)
+        return resolve(true);
       })
-      console.log("Listado de estaciones: ", list)
     })
   }
 
@@ -90,21 +115,10 @@ export class MapaPage {
     this.map = L.map('map').setView(this.center, this.zoom);
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">SAT Florencia</a> GIECOM'
+      attribution: '&copy; <a href="http://200.21.7.94/sat">SAT Florencia</a> GIECOM'
     }).addTo(this.map);
 
     L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
-
-    // Detecta cuando se hace click en el mapa
-    this.map.on('click', (e) => {
-      /*
-      //marker Default
-      let marker = L.marker(e.latlng)
-        .bindPopup('Mensaje')
-        .addTo(this.map)
-        .openPopup();
-      */
-    });
 
     // Marcador por defecto
     // this.addMarker(this.center, 'Florencia, Caquetá');
@@ -117,8 +131,16 @@ export class MapaPage {
    */
   addMarker(coord: Array<Number | String>, message: string = 'Mensaje'): void {
     // L.marker([50.5, 30.5]).addTo(this.map);
-    L.marker(coord, { icon: this.greenIcon }).addTo(this.map)
+    let mark = L.marker(coord, { icon: this.greenIcon }).addTo(this.map)
       .bindPopup(message)
       .openPopup();
+
+    mark.on('click', (event) => {
+      console.log("Click", event);
+      this.list_sensores_bottom = this.list_sensores.filter(it => {
+        // console.log("Compare:", it.Latitud, event.latlng.lat);
+        return it.Latitud == event.latlng.lat
+      })
+    })
   }
 }

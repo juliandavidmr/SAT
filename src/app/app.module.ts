@@ -4,7 +4,6 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 /* Pages */
-import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { EstacioneDetallePage } from '../pages/estacione-detalle/estacione-detalle';
@@ -30,11 +29,11 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 import { IonicStorageModule } from '@ionic/storage';
 import { LocalNotifications } from 'ionic-native';
 import { GraficaComponent } from '../components/grafica-component/grafica-component';
+import { FocusCards } from "../components/focus-cards/focus-cards";
 
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
     HomePage,
     TabsPage,
     EstacioneDetallePage,
@@ -45,7 +44,8 @@ import { GraficaComponent } from '../components/grafica-component/grafica-compon
     SensoresPage,
     SensorDetallePage,
     ResumenPage,
-    GraficaComponent
+    GraficaComponent,
+    FocusCards
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -61,7 +61,6 @@ import { GraficaComponent } from '../components/grafica-component/grafica-compon
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
     HomePage,
     TabsPage,
     EstacioneDetallePage,

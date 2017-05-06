@@ -13,5 +13,20 @@
 </ion-header>
 
 <ion-content padding>
-  <div #map id="map" style="height:100%;"></div>
+  <ion-refresher (ionRefresh)="doRefresh($event)" pullMin="70">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div id="map" [style]="stylemap"></div>
+
+  <ion-card *ngFor="let item of list_sensores_bottom">
+
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="assets/images/sensor.png">
+      </ion-avatar>
+      <h2>{{ item.NombreSensor }}</h2>
+      <p>{{ item.Descripcion1 }}</p>
+    </ion-item>
+  </ion-card>
 </ion-content>
