@@ -13,8 +13,8 @@
     <ion-card-content>
       <ion-item>
         <ion-label>Sensor</ion-label>
-        <ion-select [(ngModel)]="sensor" interface="popover">
-          <ion-option *ngFor="let item of list_sensores" [value]="item.idSensor" text-wrap>{{item.Descripcion1}}</ion-option>
+        <ion-select [(ngModel)]="idsensor" interface="popover">
+          <ion-option *ngFor="let item of list_sensores" [value]="item.idSensor" text-wrap>{{ item.NombreSensor }} {{item.Descripcion1}}</ion-option>
         </ion-select>
       </ion-item>
 
@@ -24,12 +24,12 @@
         </ion-datetime>
       </ion-item>
 
-      <button ion-button full outline>
+      <button ion-button full outline (click)="loadResumen()">
         <ion-icon name="ios-analytics"></ion-icon>
         Ver resumen
       </button>
 
-      <grafica-component hero="julian"></grafica-component>
+      <canvas #grafica style="width:110%;height:500px;"></canvas>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -81,9 +81,9 @@ export class SensorDetallePage {
         // Obtiene el ultimo dato (Numero) capturado
         this.ultimo = list_data[0];
 
-        if (list_data.length >= 20) {
-          list_data = list_data.slice(0, 20);
-          list_label = list_label.slice(0, 20);
+        if (list_data.length >= 30) {
+          list_data = list_data.slice(0, 30);
+          list_label = list_label.slice(0, 30);
         }
         list_data = list_data.reverse();
         list_label = list_label.reverse();
