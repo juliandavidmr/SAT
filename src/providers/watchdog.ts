@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ServiceSensores, ResponseData } from './service-sensores';
 import * as moment from 'moment';
 import 'rxjs/add/operator/map';
+import { BackgroundMode } from '@ionic-native/background-mode';
 import { Notif } from './notif';
 
 
@@ -23,19 +24,19 @@ export class Watchdog {
 
   constructor(
     public sensores: ServiceSensores,
+    private backgroundMode: BackgroundMode,
     public notif: Notif) {
     console.log('Hello Watchdog Provider');
   }
 
   /**
    * Activa la funcionalidad de segundo plano
-   */
-  /*
+   */  
   enable(): void {
     if (!this.backgroundMode.isEnabled()) {
       this.backgroundMode.enable();
     }
-  }*/
+  }
 
   /**
    * Corre un proceso en segundo plano que se ejecuta cada cierto tiempo.
@@ -51,7 +52,7 @@ export class Watchdog {
   /**
    * Consulta el API y analiza los valores capturados por los sensores.
    */
-  findWarns(): void {
+  findAlertas(): void {
     this.sensores.getListSensores().then((res: ResponseData[] = []) => {
       if (res) {
         res.map((item, index) => {

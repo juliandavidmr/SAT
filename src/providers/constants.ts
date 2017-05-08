@@ -6,7 +6,7 @@ export const URL_API_TIPOS_SENSORES = URL_API + '/api/tiposensor/getTipoSensores
 export const URL_API_ESTACIONES = URL_API + '/api/estacion/getEstaciones';
 export const URL_API_SENSORES_BY_ESTACION = (ID_ESTACION: Number) => `${URL_API}/api/estacion/getsensoresestacion/${ID_ESTACION}`;
 export const URL_API_SENSORES_DATOS_BY_ESTACION = (ID_ESTACION: Number) => `${URL_API}/api/dato/getdatosestacion/${ID_ESTACION}`;
-export const URL_API_DATOS_BY_FECHA_Y_SENSOR = (FECHA: Date, IDSENSOR: Number) => `${URL_API}/api/dato/getDatosAgrupados?id_sensor=${IDSENSOR}&fecha=${FECHA}`
+export const URL_API_DATOS_BY_FECHA_Y_SENSOR = (FECHA: string, IDSENSOR: Number) => `${URL_API}/api/dato/getDatosAgrupados?id_sensor=${IDSENSOR}&fecha=${FECHA}`
 
 export const KEY_SENSORES = 'KEY_SENSORES';
 export const KEY_ESTACIONES = 'KEY_ESTACIONES';

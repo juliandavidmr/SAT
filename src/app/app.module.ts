@@ -22,6 +22,7 @@ import { Load } from '../providers/load';
 import { DateMethod } from '../providers/date';
 import { Watchdog } from '../providers/watchdog';
 import { Notif } from '../providers/notif';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 /* Components */
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
@@ -30,6 +31,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import { LocalNotifications } from 'ionic-native';
 import { GraficaComponent } from '../components/grafica-component/grafica-component';
 import { FocusCards } from "../components/focus-cards/focus-cards";
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpModule } from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -48,6 +51,8 @@ import { FocusCards } from "../components/focus-cards/focus-cards";
     FocusCards
   ],
   imports: [
+    BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp, {
       backButtonText: 'Atras',
       iconMode: 'md',
@@ -84,7 +89,8 @@ import { FocusCards } from "../components/focus-cards/focus-cards";
     IonicStorageModule,
     Watchdog,
     LocalNotifications,
-    Notif
+    Notif,
+    BackgroundMode
   ]
 })
 export class AppModule { }

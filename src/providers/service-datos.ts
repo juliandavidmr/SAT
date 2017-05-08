@@ -24,7 +24,7 @@ export class ServiceDatos {
   /**
    * Obtiene un resumen de datos segun un sensor y una fecha
    */
-  getDatosBySensorFecha(fecha: Date, idsensor: number): Promise<IResumen[]> {
+  getDatosBySensorFecha(fecha: string, idsensor: number): Promise<IResumen[]> {
     return new Promise((resolve, reject) => {
       this.http.get(URL_API_DATOS_BY_FECHA_Y_SENSOR(fecha, idsensor))
         .map(res => res.json())
@@ -32,5 +32,5 @@ export class ServiceDatos {
           return resolve(res)
         }, err => reject(err))
     })
-  }  
+  }
 }

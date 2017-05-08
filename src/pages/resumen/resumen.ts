@@ -5,6 +5,12 @@ import { ServiceDatos, IResumen } from "../../providers/service-datos";
 import Chart from 'chart.js';
 import moment from 'moment';
 
+export interface IDate {
+  day: number
+  month: number
+  year: number
+}
+
 @Component({
   selector: 'page-resumen',
   templateUrl: 'resumen.html'
@@ -12,7 +18,7 @@ import moment from 'moment';
 export class ResumenPage {
 
   @ViewChild('grafica') canvas: ElementRef;
-  fecha: Date
+  fecha: IDate
   idsensor: number = 0;
   list_sensores: ResponseData[] = [{
     Altura: 0,
@@ -50,12 +56,16 @@ export class ResumenPage {
   }
 
   loadResumen() {
-    console.log("Cargando resumen de:", this.fecha, this.idsensor)
-    this.datos.getDatosBySensorFecha(this.fecha, this.idsensor).then(data => {
+    console.log("Cargando resumen de:", this.SelectDateToString(this.fecha), this.idsensor)
+    this.datos.getDatosBySensorFecha(this.SelectDateToString(this.fecha), this.idsensor).then(data => {
       console.log("Resumen:", data)
 
       this.loadCanvas(data)
     })
+  }
+
+  SelectDateToString(date: IDate) {
+    return `${date.year}-${date.month}-${date.day}`
   }
 
   loadCanvas(resumen: IResumen[]) {
@@ -91,7 +101,7 @@ export class ResumenPage {
    * Carga los datos despues de seleccionar la fecha y el sensor
    */
   loadSelectedDatos() {
-    this.datos.getDatosBySensorFecha(this.fecha, this.idsensor)
+    this.datos.getDatosBySensorFecha(this.SelectDateToString(this.fecha), this.idsensor)
   }
 
   loadGraphics(element: ElementRef, type: string, labels: Array<string>, data: Array<Number>, backgroundColor?: string, borderColor?: string, beginAtZero?: Boolean) {

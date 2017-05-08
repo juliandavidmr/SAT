@@ -81,11 +81,13 @@ export class MapaPage {
 
             var html_li = [];
             list_sensores.forEach(item_sensor => {
+              // console.log("Item:", item_sensor);
+
               html_li.push(`
               <li>
                 ${item_sensor.NombreSensor}:           
                 <strong>${item_sensor.Dato ? item_sensor.Dato : 0}</strong> |
-                <small>${moment(item_sensor.DateDato).fromNow()}</small>
+                <small>${moment(item_sensor.insertDate).fromNow()}</small>
               </li>
             `)
             })
@@ -139,7 +141,7 @@ export class MapaPage {
       console.log("Click", event);
       this.list_sensores_bottom = this.list_sensores.filter(it => {
         // console.log("Compare:", it.Latitud, event.latlng.lat);
-        return it.Latitud == event.latlng.lat
+        return it.Latitud == event.latlng.lat && it.Longitud == event.latlng.lng
       })
     })
   }
