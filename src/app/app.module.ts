@@ -29,7 +29,6 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 
 import { IonicStorageModule } from '@ionic/storage';
 import { LocalNotifications } from 'ionic-native';
-import { GraficaComponent } from '../components/grafica-component/grafica-component';
 import { FocusCards } from "../components/focus-cards/focus-cards";
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpModule } from "@angular/http";
@@ -47,7 +46,6 @@ import { HttpModule } from "@angular/http";
     SensoresPage,
     SensorDetallePage,
     ResumenPage,
-    GraficaComponent,
     FocusCards
   ],
   imports: [
@@ -74,8 +72,7 @@ import { HttpModule } from "@angular/http";
     MapaPage,
     SensoresPage,
     SensorDetallePage,
-    ResumenPage,
-    GraficaComponent
+    ResumenPage
   ],
   providers: [{
     provide: ErrorHandler,
