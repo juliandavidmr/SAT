@@ -4,6 +4,7 @@ import { ServiceSensores, ResponseData } from '../../providers/service-sensores'
 import { ServiceDatos, IResumen } from "../../providers/service-datos";
 import Chart from 'chart.js';
 import moment from 'moment';
+import { ServiceEstaciones, IEstacion } from '../../providers/service-estaciones';
 
 export interface IDate {
   day: number
@@ -18,7 +19,7 @@ export interface IDate {
 export class ResumenPage {
 
   @ViewChild('grafica') canvas: ElementRef;
-  fecha: IDate
+  fecha: string = (new Date()).toISOString()
   idsensor: number = 0;
   list_sensores: ResponseData[] = [{
     Altura: 0,
@@ -38,33 +39,49 @@ export class ResumenPage {
     idEstacion: 0,
     idSensor: 0,
     idTipoSensor: 0,
-
-    // Atributos no propios del api
     ultimo: 0
   }]
+  list_estaciones: IEstacion[] = [{
+    Descripcion: 'Cargando',
+    Latitud: 'Cargando',
+    Longitud: 'Cargando',
+    Nombre: 'Cargando',
+    idEstacion: null
+  }];
 
   constructor(
     public navCtrl: NavController,
     public sensores: ServiceSensores,
+    public estaciones: ServiceEstaciones,
     public datos: ServiceDatos,
     private toastCtrl: ToastController) { }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ResumenPage');
 
-    this.loadSensores()
+    this.loadEstaciones();
   }
 
-  loadResumen() {
+  /**
+   * Carga los datos del sensor seleccionado y fecha
+   */
+  public loadResumen() {
     console.log("Cargando resumen de:", this.SelectDateToString(this.fecha), this.idsensor)
     this.datos.getDatosBySensorFecha(this.SelectDateToString(this.fecha), this.idsensor).then(data => {
-      console.log("Resumen:", data)
+      console.log("Resumen:", data);
 
-      this.loadCanvas(data)
+      this.loadCanvas(data);
     })
   }
 
-  SelectDateToString(date: IDate) {
+  public loadEstaciones() {
+    this.estaciones.getListEstaciones().then(list => {
+      console.log('Estaciones:', list)
+      this.list_estaciones = list;
+    })
+  }
+
+  SelectDateToString(date: any | IDate) {
     return `${date.year}-${date.month}-${date.day}`
   }
 
@@ -89,8 +106,9 @@ export class ResumenPage {
    * Carga un listado de sensores.
    * Usado para llenar el elemento de seleccion de sensores.
    */
-  loadSensores() {
-    this.sensores.getListSensores().then((list: ResponseData[]) => {
+  loadSensores(idEstacion: number) {
+    console.log("Load estaciones.");
+    this.sensores.getListSensoresByEstacion(idEstacion).then((list: ResponseData[]) => {
       console.log("=>", list);
 
       this.list_sensores = list;

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, ToastController, IonicApp, ViewController } from 'ionic-angular';
+import { Platform, Nav, ToastController, IonicApp } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
@@ -12,7 +12,7 @@ export class MyApp {
   backButtonPressed: boolean = false;
   @ViewChild('myNav') nav: Nav;
 
-  constructor(public ionicApp: IonicApp, public viewCtrl: ViewController, public platform: Platform, public toastCtrl: ToastController) {
+  constructor(public ionicApp: IonicApp, public platform: Platform, public toastCtrl: ToastController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
