@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, Platform } from 'ionic-angular';
 import { ServiceSensores, ResponseData } from '../../providers/service-sensores';
 import { ServiceDatos, IResumen } from "../../providers/service-datos";
 import Chart from 'chart.js';
@@ -20,6 +20,7 @@ export class ResumenPage {
 
   @ViewChild('grafica') canvas: ElementRef;
   fecha: string = (new Date()).toISOString()
+
   idsensor: number = 0;
   list_sensores: ResponseData[] = [{
     Altura: 0,
@@ -50,6 +51,7 @@ export class ResumenPage {
   }];
 
   constructor(
+    public platform: Platform,
     public navCtrl: NavController,
     public sensores: ServiceSensores,
     public estaciones: ServiceEstaciones,
@@ -66,8 +68,8 @@ export class ResumenPage {
    * Carga los datos del sensor seleccionado y fecha
    */
   public loadResumen() {
-    console.log("Cargando resumen de:", this.SelectDateToString(this.fecha), this.idsensor)
-    this.datos.getDatosBySensorFecha(this.SelectDateToString(this.fecha), this.idsensor).then(data => {
+    console.log("Cargando resumen de:", this.toDate(this.fecha), this.idsensor)
+    this.datos.getDatosBySensorFecha(this.toDate(this.fecha), this.idsensor).then(data => {
       console.log("Resumen:", data);
 
       this.loadCanvas(data);
@@ -81,8 +83,9 @@ export class ResumenPage {
     })
   }
 
-  SelectDateToString(date: any | IDate) {
-    return `${date.year}-${date.month}-${date.day}`
+  toDate(date: string | IDate) {
+    return typeof date === 'string' ? 
+      date : `${date.year}-${date.month >= 10 ? date.month : `0${date.month}`}-${date.day}`;
   }
 
   loadCanvas(resumen: IResumen[]) {
@@ -119,7 +122,7 @@ export class ResumenPage {
    * Carga los datos despues de seleccionar la fecha y el sensor
    */
   loadSelectedDatos() {
-    this.datos.getDatosBySensorFecha(this.SelectDateToString(this.fecha), this.idsensor)
+    this.datos.getDatosBySensorFecha(this.fecha, this.idsensor);
   }
 
   loadGraphics(element: ElementRef, type: string, labels: Array<string>, data: Array<Number>, backgroundColor?: string, borderColor?: string, beginAtZero?: Boolean) {
@@ -144,7 +147,7 @@ export class ResumenPage {
             intersect: false,
           },
           scales: {
-            yAxes: [{
+            yAxes: [{              
               ticks: {
                 beginAtZero: (beginAtZero == null) ? beginAtZero : false
               }
@@ -164,7 +167,9 @@ export class ResumenPage {
     let toast = this.toastCtrl.create({
       message: message,
       duration: time,
-      position: position
+      position: position,
+      closeButtonText: 'Ok',
+      showCloseButton: true
     });
 
     toast.onDidDismiss(() => {
@@ -172,5 +177,9 @@ export class ResumenPage {
     });
 
     toast.present();
+  }
+
+  public exit() {
+    this.platform.exitApp();
   }
 }
